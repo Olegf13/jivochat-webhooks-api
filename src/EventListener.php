@@ -139,7 +139,7 @@ class EventListener
      */
     public function listen(): bool
     {
-        if ('POST' !== $_SERVER['REQUEST_METHOD']) {
+        if (!array_key_exists('REQUEST_METHOD', $_SERVER) || ('POST' !== $_SERVER['REQUEST_METHOD'])) {
             return false;
         }
 
