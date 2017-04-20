@@ -132,7 +132,7 @@ class EventListener
      * Listener. Use it after adding necessary handlers (using {@link on()} method).
      *
      * @return bool
-     *
+     * @throws \RuntimeException
      * @throws \LogicException in case when couldn't get `event` name from the request.
      * @throws \LogicException in case when got unknown `event` name from the request.
      * @throws \LogicException in case when event handler for current `event` returned an empty response.
@@ -149,6 +149,7 @@ class EventListener
             return false;
         }
 
+        // log request string via registered loggers
         foreach ($this->loggers as $logger) {
             $logger->logRequest($requestData);
         }
@@ -170,15 +171,16 @@ class EventListener
         }
 
         if (!array_key_exists($event, $this->listeners)) {
-            throw new \LogicException("No event handler is registered for `{$event}` event.");
+            $responseData = (new Response())->getResponse();
+        } else {
+            /** @var string Response JSON string. */
+            $responseData = call_user_func($this->listeners[$event], $decodedRequest);
+            if (empty($responseData)) {
+                throw new \LogicException("Event handler for `{$event}` event returned an empty response.");
+            }
         }
 
-        /** @var string Response JSON string. */
-        $responseData = call_user_func($this->listeners[$event], $decodedRequest);
-        if (empty($responseData)) {
-            throw new \LogicException("Event handler for `{$event}` event returned an empty response.");
-        }
-
+        // log response string via registered loggers
         foreach ($this->loggers as $logger) {
             $logger->logResponse($responseData);
         }
