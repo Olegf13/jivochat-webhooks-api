@@ -1,0 +1,36 @@
+{
+  "name": "olegf13/jivochat-webhooks-api",
+  "description": "Jivochat (Jivosite) Webhooks API service.",
+  "type": "library",
+  "keywords": [
+    "Jivochat",
+    "Jivosite",
+    "Webhooks API"
+  ],
+  "homepage": "https://github.com/Olegf13/jivochat-webhooks-api",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Oleg Fedorov",
+      "email": "olegf39@gmail.com",
+      "homepage": "https://github.com/Olegf13",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "olegf39@gmail.com",
+    "issues": "https://github.com/Olegf13/jivochat-webhooks-api/issues",
+    "source": "https://github.com/Olegf13/jivochat-webhooks-api",
+    "docs": "https://github.com/Olegf13/jivochat-webhooks-api"
+  },
+  "require": {
+    "php": ">=7.0.0",
+    "monolog/monolog": "^1.22"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jivochat\\Webhooks\\": "src/"
+    }
+  },
+  "minimum-stability": "dev"
+}
