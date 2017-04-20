@@ -127,4 +127,66 @@ class EventListener
 
         $this->listeners[$event] = $callback;
     }
+
+    /**
+     * Listener. Use it after adding necessary handlers (using {@link on()} method).
+     *
+     * @return bool
+     *
+     * @throws \LogicException in case when couldn't get `event` name from the request.
+     * @throws \LogicException in case when got unknown `event` name from the request.
+     * @throws \LogicException in case when event handler for current `event` returned an empty response.
+     */
+    public function listen(): bool
+    {
+        if ('POST' !== $_SERVER['REQUEST_METHOD']) {
+            return false;
+        }
+
+        /** @var string Webhook request data string. */
+        $requestData = file_get_contents('php://input');
+        if (empty($requestData)) {
+            return false;
+        }
+
+        foreach ($this->loggers as $logger) {
+            $logger->logRequest($requestData);
+        }
+
+        /** @var array Decoded Webhook request data array (assoc). */
+        $decodedRequest = json_decode($requestData, true);
+        if (empty($decodedRequest)) {
+            return false;
+        }
+
+        /** @var string Event name. */
+        $event = $decodedRequest['event_name'] ?: null;
+        if (null === $event) {
+            throw new \LogicException("Request doesn't contain `event` field (not a Jivochat Webhook?).");
+        }
+
+        if (!in_array($event, static::EVENTS, true)) {
+            throw new \LogicException("Got unknown event name from Webhook request (`{$event}`).");
+        }
+
+        if (!array_key_exists($event, $this->listeners)) {
+            throw new \LogicException("No event handler is registered for `{$event}` event.");
+        }
+
+        /** @var string Response JSON string. */
+        $responseData = call_user_func($this->listeners[$event], $decodedRequest);
+        if (empty($responseData)) {
+            throw new \LogicException("Event handler for `{$event}` event returned an empty response.");
+        }
+
+        foreach ($this->loggers as $logger) {
+            $logger->logResponse($responseData);
+        }
+
+        \HttpResponse::status(200);
+        \HttpResponse::setContentType('application/json; charset=utf-8');
+        \HttpResponse::setData($responseData);
+
+        return \HttpResponse::send();
+    }
 }
