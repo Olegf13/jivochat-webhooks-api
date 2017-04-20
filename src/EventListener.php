@@ -71,6 +71,9 @@ class EventListener
         self::EVENT_OFFLINE_MESSAGE,
     ];
 
+    /** @var array Event listeners. */
+    protected $listeners = [];
+
     /** @var array Registered loggers. */
     protected $loggers = [];
 
@@ -94,5 +97,34 @@ class EventListener
         }
 
         $this->loggers = $loggers;
+    }
+
+    /**
+     * Event handler registration method.
+     *
+     * You can register only one handler for each event (see available {@link EventListener::EVENTS events} list).
+     *
+     * @param string $event Event name.
+     * @param callable $callback Event callback.
+     * Must return response string (JSON) after executing. See {@link Response}.
+     *
+     * @throws \InvalidArgumentException in case if invalid event name given or second parameter is not a callable.
+     * @throws \LogicException in case if event handler for given event is already registered.
+     */
+    public function on(string $event, callable $callback): void
+    {
+        if (!in_array($event, static::EVENTS, true)) {
+            throw new \InvalidArgumentException("Invalid `event` name given (`{$event}`).");
+        }
+
+        if (!is_callable($callback, false, $callableName)) {
+            throw new \InvalidArgumentException("Invalid callable given (`{$callableName}`.)");
+        }
+
+        if (array_key_exists($event, $this->listeners)) {
+            throw new \LogicException("Event handler for `{$event}` event is already registered");
+        }
+
+        $this->listeners[$event] = $callback;
     }
 }
