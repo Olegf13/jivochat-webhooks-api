@@ -70,4 +70,29 @@ class EventListener
         self::EVENT_CHAT_UPDATED,
         self::EVENT_OFFLINE_MESSAGE,
     ];
+
+    /** @var array Registered loggers. */
+    protected $loggers = [];
+
+    /**
+     * EventListener constructor.
+     *
+     * @param ILogger[] $loggers Loggers to be used. Optional. Requires loggers to be {@link ILogger} descendants.
+     * @throws \InvalidArgumentException in case when invalid logger given (not a ILogger descendant).
+     */
+    public function __construct(array $loggers = [])
+    {
+        if (!empty($loggers)) {
+            foreach ($loggers as $logger) {
+                if ($logger instanceof ILogger) {
+                    continue;
+                }
+
+                $class = get_class($logger);
+                throw new \InvalidArgumentException("Invalid Logger object given, ILogger descendant required, `{$class}` given.");
+            }
+        }
+
+        $this->loggers = $loggers;
+    }
 }
