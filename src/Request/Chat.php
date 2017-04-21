@@ -17,4 +17,6 @@ class Chat
     public $messages;
     /** @var string|null User chat rank ("positive"|"negative"|null). */
     public $rate;
+    /** @var bool|null A sign that the user was added to the black list (e.g. false). */
+    public $blacklisted;
 }
