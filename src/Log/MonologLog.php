@@ -1,22 +1,23 @@
 <?php
 
-namespace Jivochat\Webhooks;
+namespace Jivochat\Webhooks\Log;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 /**
- * Class MonologLogger
- * @package Jivochat\Webhooks
+ * Class MonologLog
+ * @package Jivochat\Webhooks\Log
  */
-class MonologLogger implements ILogger
+class MonologLog implements LogInterface
 {
     /** @var Logger Monolog logger instance. */
     protected $logger;
 
     /**
      * FileLogger constructor.
-     * @param Logger $logger
+     *
+     * @param Logger $logger Monolog logger instance.
      * @param string $filePath (with full path, e.g. `/var/log/jivosite_callbacks.log`).
      * @throws \InvalidArgumentException in case if given log file already exists but is not writable.
      * @throws \Exception

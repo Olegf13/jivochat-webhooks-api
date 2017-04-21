@@ -1,14 +1,14 @@
 <?php
 
-namespace Jivochat\Webhooks;
+namespace Jivochat\Webhooks\Log;
 
 /**
- * Class MySQLLogger
- * @package Jivochat\Webhooks
+ * Class MySQLLog
+ * @package Jivochat\Webhooks\Log
  */
-class MySQLLogger implements ILogger
+class MySQLLog implements LogInterface
 {
-    /** @var \PDO Logger MySQL PDO instance. */
+    /** @var \PDO Log MySQL PDO instance. */
     protected $pdo;
     /** @var string Logging table name. */
     protected $tableName;
@@ -16,7 +16,7 @@ class MySQLLogger implements ILogger
     protected $id;
 
     /**
-     * MySQLLogger constructor.
+     * MySQLLog constructor.
      *
      * @param \PDO $pdo MySQL PDO instance.
      * @param string $tableName Table name. Optional, defaults to `jivochat_webhooks_log`.
@@ -88,10 +88,10 @@ class MySQLLogger implements ILogger
     }
 
     /**
-     * Check if Logger table exists.
+     * Check if Log table exists.
      *
      * @return bool Returns `true` if table exists.
-     * @throws \RuntimeException in case if error occurs while checking Logger table existence.
+     * @throws \RuntimeException in case if error occurs while checking Log table existence.
      */
     protected function isTableExists(): bool
     {
@@ -100,7 +100,7 @@ class MySQLLogger implements ILogger
         $result = $stmt->execute([':table_name' => $this->tableName]);
         if (!$result) {
             $errorInfo = print_r($stmt->errorInfo(), true);
-            throw new \RuntimeException("Couldn't check if Logger table exists. Query string: `{$stmt->queryString}`, table name: `{$this->tableName}`, error info: `{$errorInfo}`.");
+            throw new \RuntimeException("Couldn't check if Log table exists. Query string: `{$stmt->queryString}`, table name: `{$this->tableName}`, error info: `{$errorInfo}`.");
         }
 
         return 1 === $stmt->rowCount();
@@ -109,7 +109,7 @@ class MySQLLogger implements ILogger
     /**
      * Create logger table in database.
      *
-     * @throws \RuntimeException in case if error occurs while Logger table creation.
+     * @throws \RuntimeException in case if error occurs while Log table creation.
      */
     protected function createLogTable(): void
     {
@@ -133,7 +133,7 @@ SQL;
         $result = $this->pdo->exec($sql);
         if (!$result) {
             $errorInfo = print_r($this->pdo->errorInfo(), true);
-            throw new \RuntimeException("Couldn't create Logger table. Query string: `{$sql}`, table name: `{$this->tableName}`, error info: `{$errorInfo}`.");
+            throw new \RuntimeException("Couldn't create Log table. Query string: `{$sql}`, table name: `{$this->tableName}`, error info: `{$errorInfo}`.");
         }
     }
 }
