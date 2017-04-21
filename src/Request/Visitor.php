@@ -5,7 +5,7 @@ namespace Jivochat\Webhooks\Request;
 use Jivochat\Webhooks\PopulateObjectViaArray;
 
 /**
- * Information about the visitor.
+ * Information about the visitor (name, email, chats count etc).
  *
  * @package Jivochat\Webhooks\Request
  */

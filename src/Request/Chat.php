@@ -5,7 +5,7 @@ namespace Jivochat\Webhooks\Request;
 use Jivochat\Webhooks\PopulateObjectViaArray;
 
 /**
- * Holds data on completed chatting.
+ * Holds data on completed chatting (chat rank and messages list).
  *
  * @package Jivochat\Webhooks\Request
  */

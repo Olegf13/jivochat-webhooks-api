@@ -5,7 +5,7 @@ namespace Jivochat\Webhooks\Request;
 use Jivochat\Webhooks\PopulateObjectViaArray;
 
 /**
- * Data from geoip.
+ * Geo data about the user (country, city, coordinates etc).
  *
  * @package Jivochat\Webhooks\Request
  */

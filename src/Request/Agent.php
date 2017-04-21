@@ -5,7 +5,7 @@ namespace Jivochat\Webhooks\Request;
 use Jivochat\Webhooks\PopulateObjectViaArray;
 
 /**
- * Object with information about the operator.
+ * Object with information about the operator (name, email etc).
  *
  * @package Jivochat\Webhooks\Request
  */
