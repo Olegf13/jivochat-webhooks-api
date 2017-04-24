@@ -5,6 +5,7 @@ namespace Jivochat\Webhooks\Log;
 use MongoDB\Client;
 use MongoDB\Database;
 use MongoDB\Collection;
+use MongoDB\BSON\UTCDateTime;
 
 /**
  * Allows logging of Webhooks requests/response data into MongoDB.
@@ -75,7 +76,10 @@ class MongoDBLog implements LogInterface
             $this->setRequestCollection();
         }
 
-        $result = $this->requestCollection->insertOne(json_decode($data, true));
+        $dataArray = json_decode($data, true);
+        $dataArray['_datetime'] = new UTCDateTime(round(microtime(true) * 1000));
+
+        $result = $this->requestCollection->insertOne($dataArray);
         $this->id = $result->getInsertedId();
 
         return $result->isAcknowledged();
@@ -92,10 +96,11 @@ class MongoDBLog implements LogInterface
             $this->setResponseCollection();
         }
 
-        $responseData = json_decode($data, true);
-        $responseData['request_id'] = $this->id;
+        $dataArray = json_decode($data, true);
+        $dataArray['_request_id'] = $this->id;
+        $dataArray['_datetime'] = new UTCDateTime(round(microtime(true) * 1000));
 
-        $result = $this->responseCollection->insertOne($responseData);
+        $result = $this->responseCollection->insertOne($dataArray);
 
         return $result->isAcknowledged();
     }
