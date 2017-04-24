@@ -73,23 +73,22 @@ class EventListener
     /**
      * Listener. Use it after adding necessary handlers (using {@link on()} method).
      *
-     * @return bool
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws \LogicException in case when couldn't get `event` name from the request.
      * @throws \LogicException in case when got unknown `event` name from the request.
      * @throws \LogicException in case when event handler for current `event` returned an empty response.
      */
-    public function listen(): bool
+    public function listen(): void
     {
         if (!array_key_exists('REQUEST_METHOD', $_SERVER) || ('POST' !== $_SERVER['REQUEST_METHOD'])) {
-            return false;
+            return;
         }
 
         /** @var string Webhook request data string. */
         $requestData = file_get_contents('php://input');
         if (empty($requestData)) {
-            return false;
+            return;
         }
 
         // log request string via registered loggers
@@ -101,7 +100,7 @@ class EventListener
 
         // if no handler is registered on current event, respond with a default response
         if (!array_key_exists($event->event_name, $this->listeners)) {
-            return $this->respond(new Response());
+            $this->respond(new Response());
         }
 
         /** @var Response $response */
@@ -110,17 +109,16 @@ class EventListener
             throw new \LogicException("Registered handler for `{$event->event_name}` event returned invalid response.");
         }
 
-        return $this->respond($response);
+        $this->respond($response);
     }
 
     /**
      * Responds on Webhook after event handler is executed.
      *
      * @param Response $response Event handler response.
-     * @return bool Returns `true` on success response.
      * @throws \RuntimeException
      */
-    protected function respond(Response $response): bool
+    protected function respond(Response $response): void
     {
         /** @var string Webhook response JSON string. */
         $responseJSON = $response->getResponse();
@@ -130,10 +128,9 @@ class EventListener
             $logger->logResponse($responseJSON);
         }
 
-        \HttpResponse::status(200);
-        \HttpResponse::setContentType('application/json; charset=utf-8');
-        \HttpResponse::setData($responseJSON);
+        http_response_code(200);
+        header('ContentType: application/json; charset=utf-8');
 
-        return \HttpResponse::send();
+        die($responseJSON);
     }
 }
