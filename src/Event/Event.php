@@ -44,7 +44,7 @@ abstract class Event
      * All known data about visitor, agent's info and the chat log will be sent in the request parameters.
      * Also parameters including visitor's id if it was sent to the widget using `jivo_api.setUserToken`.
      *
-     * In response we expect only {"result": "ok or an error message"}
+     * In response we expect only `{"result": "ok or an error message"}`.
      */
     const EVENT_CHAT_FINISHED = 'chat_finished';
 
@@ -55,7 +55,7 @@ abstract class Event
      * All known data about visitor and agent's info will be sent in the request parameters.
      * Also parameters including visitor's id if it was sent to the widget using `jivo_api.setUserToken`.
      *
-     * In response we expect only {"result": "ok or an error message"}
+     * In response we expect only `{"result": "ok or an error message"}`.
      */
     const EVENT_CHAT_UPDATED = 'chat_updated';
 
@@ -65,7 +65,7 @@ abstract class Event
      * All known data about visitor and offline message will be sent in the request parameters.
      * Also parameters including visitor's id if it was sent to the widget using `jivo_api.setUserToken`.
      *
-     * In response we expect only {"result": "ok or an error message"}
+     * In response we expect only `{"result": "ok or an error message"}`.
      */
     const EVENT_OFFLINE_MESSAGE = 'offline_message';
 
