@@ -2,52 +2,101 @@
 
 namespace Jivochat\Webhooks\Log;
 
+use MongoDB\Client;
+use MongoDB\Database;
+use MongoDB\Collection;
+
 /**
- * Class MongoDBLog
- * todo: to be implemented
+ * Allows logging of Webhooks requests/response data into MongoDB.
  *
  * @package Jivochat\Webhooks\Log
  */
 class MongoDBLog implements LogInterface
 {
+    /** @var Client MongoDB client instance. */
+    protected $client;
+    /** @var Database MongoDB database instance. */
+    protected $database;
+    /** @var Collection MongoDB collection instance for storing request logs. */
+    protected $requestCollection;
+    /** @var Collection MongoDB collection instance for storing response logs. */
+    protected $responseCollection;
+    /** @var int|null Id of Webhook request row in database. Used for saving response. */
+    protected $id;
+
     /**
-     * Log constructor.
+     * MongoDBLog constructor.
      *
-     * Concrete implementation depends on Log type,
-     * e.g. for MySQL it should be \PDO instance and table name.
-     *
-     * @param mixed $logHandler Log handler object (e.g. \PDO instance for MySQL).
-     * @param string $target Log target string (e.g. filename full path for files).
+     * @param Client $client MongoDB collection object.
+     * @param string $database Database name for logging.
      * @throws \InvalidArgumentException in case if incorrect Log handler given in concrete implementation.
      */
-    public function __construct($logHandler, string $target)
+    public function __construct($client, string $database)
     {
-        parent::__construct($logHandler, $target);
+        if (!($client instanceof Client)) {
+            $class = get_class($client);
+            throw new \InvalidArgumentException("First parameter must be an instance of \\Client, `{$class}` given.");
+        }
+
+        $this->client = $client;
+        $this->database = $this->client->selectDatabase($database);
     }
 
     /**
-     * Logs Jivosite Webhook event request data.
+     * Setter for {@link requestCollection} property.
      *
-     * Concrete implementation depends on Log type (MySQL db, file etc).
+     * @param string $name Collection name (optional).
+     * @throws \MongoDB\Exception\InvalidArgumentException
+     */
+    public function setRequestCollection(string $name = 'jivochat_webhooks_request_log')
+    {
+        $this->requestCollection = $this->database->selectCollection($name);
+    }
+
+    /**
+     * Setter for {@link responseCollection} property.
      *
-     * @param string $data Request data, must be valid JSON string.
-     * @return bool Returns true on successful logging.
+     * @param string $name Collection name (optional).
+     * @throws \MongoDB\Exception\InvalidArgumentException
+     */
+    public function setResponseCollection(string $name = 'jivochat_webhooks_response_log')
+    {
+        $this->responseCollection = $this->database->selectCollection($name);
+    }
+
+    /**
+     * @inheritdoc
+     * @throws \MongoDB\Exception\InvalidArgumentException
+     * @throws \MongoDB\Driver\Exception\RuntimeException
      */
     public function logRequest(string $data): bool
     {
-        // TODO: Implement logRequest() method.
+        if (null === $this->requestCollection) {
+            $this->setRequestCollection();
+        }
+
+        $result = $this->requestCollection->insertOne(json_decode($data, true));
+        $this->id = $result->getInsertedId();
+
+        return $result->isAcknowledged();
     }
 
     /**
-     * Logs Jivosite Webhook event response data.
-     *
-     * Concrete implementation depends on Log type (MySQL db, file etc).
-     *
-     * @param string $data Data to be logged, must be valid JSON string.
-     * @return bool Returns true on successful logging.
+     * @inheritdoc
+     * @throws \MongoDB\Exception\InvalidArgumentException
+     * @throws \MongoDB\Driver\Exception\RuntimeException
      */
     public function logResponse(string $data): bool
     {
-        // TODO: Implement logResponse() method.
+        if (null === $this->responseCollection) {
+            $this->setResponseCollection();
+        }
+
+        $responseData = json_decode($data, true);
+        $responseData['request_id'] = $this->id;
+
+        $result = $this->responseCollection->insertOne($responseData);
+
+        return $result->isAcknowledged();
     }
 }
