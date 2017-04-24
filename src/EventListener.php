@@ -74,6 +74,7 @@ class EventListener
      * Listener. Use it after adding necessary handlers (using {@link on()} method).
      *
      * @return bool
+     * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws \LogicException in case when couldn't get `event` name from the request.
      * @throws \LogicException in case when got unknown `event` name from the request.
@@ -96,34 +97,20 @@ class EventListener
             $logger->logRequest($requestData);
         }
 
-        /** @var array Decoded Webhook request data array (assoc). */
-        $decodedRequest = json_decode($requestData, true);
-        if (empty($decodedRequest)) {
-            return false;
-        }
-
-        /** @var string Event name. */
-        $event = $decodedRequest['event_name'] ?: null;
-        if (null === $event) {
-            throw new \LogicException("Request doesn't contain `event` field (not a Jivochat Webhook?).");
-        }
-
-        if (!in_array($event, Event::EVENTS, true)) {
-            throw new \LogicException("Got unknown event name from Webhook request (`{$event}`).");
-        }
+        $event = Event::create($requestData);
 
         // if no handler is registered on current event, respond with a default response
-        if (!array_key_exists($event, $this->listeners)) {
+        if (!array_key_exists($event->event_name, $this->listeners)) {
             return $this->respond(new Response());
         }
 
         /** @var Response $response */
-        $response = call_user_func($this->listeners[$event], $decodedRequest);
+        $response = call_user_func($this->listeners[$event->event_name], $event);
         if (!($response instanceof Response)) {
-            throw new \LogicException("Registered handler for `{$event}` event invalid response.");
+            throw new \LogicException("Registered handler for `{$event->event_name}` event returned invalid response.");
         }
 
-        return $this->respond(call_user_func($this->listeners[$event], $decodedRequest));
+        return $this->respond($response);
     }
 
     /**
