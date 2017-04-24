@@ -26,10 +26,16 @@
   "require": {
     "php": ">=7.0.0"
   },
+  "require-dev": {
+    "ext-pdo": "*",
+    "monolog/monolog": "1.9.*",
+    "ext-mongodb": "*",
+    "mongodb/mongodb": "1.1.*"
+  },
   "suggest": {
     "ext-pdo": "Allow logging of Webhooks requests/response data to a MySQL server",
     "monolog/monolog": "Allow logging of Webhooks requests/response using Monolog",
-    "ext-mongo": "Allow logging of Webhooks requests/response data to a MongoDB server",
+    "ext-mongodb": "Allow logging of Webhooks requests/response data to a MongoDB server",
     "mongodb/mongodb": "Allow logging of Webhooks requests/response data to a MongoDB server via PHP Driver"
   },
   "autoload": {
