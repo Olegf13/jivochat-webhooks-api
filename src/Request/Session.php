@@ -21,4 +21,27 @@ class Session
     public $ip_addr;
     /** @var string User agent info. (e.g. "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36"). */
     public $user_agent;
+
+    /**
+     * Setter for {@link geoip} property.
+     *
+     * @param GeoIP|array $data
+     * @throws \InvalidArgumentException
+     */
+    public function setGeoip($data)
+    {
+        if (is_array($data)) {
+            $geoip = new GeoIP();
+            $geoip->populate($data);
+            $this->geoip = $geoip;
+            return;
+        }
+
+        if ($data instanceof GeoIP) {
+            $this->geoip = $data;
+            return;
+        }
+
+        throw new \InvalidArgumentException('Invalid data given.');
+    }
 }

@@ -28,6 +28,10 @@ class ChatFinished extends Event
     {
         /** @var Agent $agent */
         foreach ($agents as $data) {
+            if (!is_array($data) || !($data instanceof Agent)) {
+                throw new \InvalidArgumentException('Invalid data given.');
+            }
+
             if (is_array($data)) {
                 $agent = new Agent();
                 $agent->populate($data);
@@ -39,8 +43,6 @@ class ChatFinished extends Event
                 $this->agents[] = $data;
                 continue;
             }
-
-            throw new \InvalidArgumentException('Invalid data given.');
         }
     }
 
