@@ -1,10 +1,10 @@
 <?php
 
-namespace Jivochat\Webhooks\Log;
+namespace Olegf13\Jivochat\Webhooks\Log;
 
 /**
  * Class MySQLLog
- * @package Jivochat\Webhooks\Log
+ * @package Olegf13\Jivochat\Webhooks\Log
  */
 class MySQLLog implements LogInterface
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Jivochat\Webhooks\Event;
+namespace Olegf13\Jivochat\Webhooks\Event;
 
-use Jivochat\Webhooks\PopulateObjectViaArray;
-use Jivochat\Webhooks\Request\Page;
-use Jivochat\Webhooks\Request\Session;
-use Jivochat\Webhooks\Request\Visitor;
+use Olegf13\Jivochat\Webhooks\PopulateObjectViaArray;
+use Olegf13\Jivochat\Webhooks\Request\Page;
+use Olegf13\Jivochat\Webhooks\Request\Session;
+use Olegf13\Jivochat\Webhooks\Request\Visitor;
 
 /**
  * Class Event
  *
- * @package Jivochat\Webhooks\Event
+ * @package Olegf13\Jivochat\Webhooks\Event
  */
 abstract class Event
 {

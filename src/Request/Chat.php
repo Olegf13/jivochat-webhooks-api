@@ -1,13 +1,13 @@
 <?php
 
-namespace Jivochat\Webhooks\Request;
+namespace Olegf13\Jivochat\Webhooks\Request;
 
-use Jivochat\Webhooks\PopulateObjectViaArray;
+use Olegf13\Jivochat\Webhooks\PopulateObjectViaArray;
 
 /**
  * Holds data on completed chatting (chat rank and messages list).
  *
- * @package Jivochat\Webhooks\Request
+ * @package Olegf13\Jivochat\Webhooks\Request
  */
 class Chat
 {

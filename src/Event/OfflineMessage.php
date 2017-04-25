@@ -1,10 +1,10 @@
 <?php
 
-namespace Jivochat\Webhooks\Event;
+namespace Olegf13\Jivochat\Webhooks\Event;
 
 /**
  * Class OfflineMessage
- * @package Jivochat\Webhooks\Event
+ * @package Olegf13\Jivochat\Webhooks\Event
  */
 class OfflineMessage extends Event
 {

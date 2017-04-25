@@ -1,13 +1,13 @@
 <?php
 
-namespace Jivochat\Webhooks\Request;
+namespace Olegf13\Jivochat\Webhooks\Request;
 
-use Jivochat\Webhooks\PopulateObjectViaArray;
+use Olegf13\Jivochat\Webhooks\PopulateObjectViaArray;
 
 /**
  * Information about a page on which the visitor (URL and page title).
  *
- * @package Jivochat\Webhooks\Request
+ * @package Olegf13\Jivochat\Webhooks\Request
  */
 class Page
 {

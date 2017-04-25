@@ -1,16 +1,16 @@
 <?php
 
-namespace Jivochat\Webhooks\Log;
+namespace Olegf13\Jivochat\Webhooks\Log;
 
 /**
  * Interface LogInterface
  *
  * Use it for creating own logger classes to log Jivochat API Webhooks.
  *
- * See {@link Jivochat\Webhooks\MonologLog MonologLog} and {@link Jivochat\Webhooks\MySQLLog MySQLLog}
+ * See {@link Olegf13\Jivochat\Webhooks\MonologLog MonologLog} and {@link Olegf13\Jivochat\Webhooks\MySQLLog MySQLLog}
  * for examples.
  *
- * @package Jivochat\Webhooks\Log
+ * @package Olegf13\Jivochat\Webhooks\Log
  */
 interface LogInterface
 {

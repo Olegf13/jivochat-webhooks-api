@@ -1,8 +1,8 @@
 <?php
 
-namespace Jivochat\Webhooks\Event;
+namespace Olegf13\Jivochat\Webhooks\Event;
 
-use Jivochat\Webhooks\Request\Agent;
+use Olegf13\Jivochat\Webhooks\Request\Agent;
 
 /**
  * Class ChatAccepted
@@ -16,7 +16,7 @@ use Jivochat\Webhooks\Request\Agent;
  * this data will be displayed to the agent as if a visitor introduced in the chat window.
  * It's also will be saved in the archive and email with the chat log.
  *
- * @package Jivochat\Webhooks\Event
+ * @package Olegf13\Jivochat\Webhooks\Event
  */
 class ChatAccepted extends Event
 {

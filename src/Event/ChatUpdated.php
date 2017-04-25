@@ -1,12 +1,12 @@
 <?php
 
-namespace Jivochat\Webhooks\Event;
+namespace Olegf13\Jivochat\Webhooks\Event;
 
-use Jivochat\Webhooks\Request\Agent;
+use Olegf13\Jivochat\Webhooks\Request\Agent;
 
 /**
  * Class ChatUpdated
- * @package Jivochat\Webhooks\Event
+ * @package Olegf13\Jivochat\Webhooks\Event
  */
 class ChatUpdated extends Event
 {

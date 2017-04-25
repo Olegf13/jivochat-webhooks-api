@@ -1,6 +1,6 @@
 <?php
 
-namespace Jivochat\Webhooks\Log;
+namespace Olegf13\Jivochat\Webhooks\Log;
 
 use MongoDB\Client;
 use MongoDB\Database;
@@ -10,7 +10,7 @@ use MongoDB\BSON\UTCDateTime;
 /**
  * Allows logging of Webhooks requests/response data into MongoDB.
  *
- * @package Jivochat\Webhooks\Log
+ * @package Olegf13\Jivochat\Webhooks\Log
  */
 class MongoDBLog implements LogInterface
 {

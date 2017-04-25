@@ -1,6 +1,6 @@
 <?php
 
-namespace Jivochat\Webhooks;
+namespace Olegf13\Jivochat\Webhooks;
 
 /**
  * Class Response

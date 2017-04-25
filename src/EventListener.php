@@ -1,13 +1,12 @@
 <?php
 
-namespace Jivochat\Webhooks;
+namespace Olegf13\Jivochat\Webhooks;
 
-use Jivochat\Webhooks\Event\Event;
-use Jivochat\Webhooks\Log\LogInterface;
+use Olegf13\Jivochat\Webhooks\Event\Event;
+use Olegf13\Jivochat\Webhooks\Log\LogInterface;
 
 /**
- * Class EventListener
- * todo: describe me
+ * Webhooks API Event listener.
  *
  * @package Jivochat\Webhook
  */
@@ -82,6 +81,7 @@ class EventListener
     public function listen(): void
     {
         if (!array_key_exists('REQUEST_METHOD', $_SERVER) || ('POST' !== $_SERVER['REQUEST_METHOD'])) {
+//            throw new \HttpRequestMethodException("Only HTTP POST is expected,");
             return;
         }
 
