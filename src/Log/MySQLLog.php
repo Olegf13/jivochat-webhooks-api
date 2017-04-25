@@ -4,13 +4,14 @@ namespace Olegf13\Jivochat\Webhooks\Log;
 
 /**
  * Class MySQLLog
+ *
  * @package Olegf13\Jivochat\Webhooks\Log
  */
 class MySQLLog implements LogInterface
 {
     /** @var \PDO Log MySQL PDO instance. */
     protected $pdo;
-    /** @var string Logging table name. */
+    /** @var string Logging table name (e.g. 'jivochat_webhooks_log'). */
     protected $tableName;
     /** @var int|null Id of Webhook request row in database. Used for saving response. */
     protected $id;
@@ -32,10 +33,6 @@ class MySQLLog implements LogInterface
 
         $this->pdo = $pdo;
         $this->tableName = $tableName;
-
-        if (!$this->isTableExists()) {
-            $this->createLogTable();
-        }
     }
 
     /**
@@ -88,31 +85,18 @@ class MySQLLog implements LogInterface
     }
 
     /**
-     * Check if Log table exists.
-     *
-     * @return bool Returns `true` if table exists.
-     * @throws \RuntimeException in case if error occurs while checking Log table existence.
-     */
-    protected function isTableExists(): bool
-    {
-        $sql = 'SHOW TABLES LIKE :table_name;';
-        $stmt = $this->pdo->prepare($sql);
-        $result = $stmt->execute([':table_name' => $this->tableName]);
-        if (!$result) {
-            $errorInfo = print_r($stmt->errorInfo(), true);
-            throw new \RuntimeException("Couldn't check if Log table exists. Query string: `{$stmt->queryString}`, table name: `{$this->tableName}`, error info: `{$errorInfo}`.");
-        }
-
-        return 1 === $stmt->rowCount();
-    }
-
-    /**
      * Create logger table in database.
      *
+     * @param bool $checkExistence Whether to check for log table existence. Defaults to `true`.
+     * @throws \RuntimeException in case if Log table already exists.
      * @throws \RuntimeException in case if error occurs while Log table creation.
      */
-    protected function createLogTable(): void
+    public function createLogTable($checkExistence = true): void
     {
+        if ($checkExistence && $this->isTableExists()) {
+            throw new \RuntimeException("Table `{$this->tableName}` already exists.");
+        }
+
         $sql = <<<SQL
 CREATE TABLE `{$this->tableName}` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT
@@ -135,5 +119,24 @@ SQL;
             $errorInfo = print_r($this->pdo->errorInfo(), true);
             throw new \RuntimeException("Couldn't create Log table. Query string: `{$sql}`, table name: `{$this->tableName}`, error info: `{$errorInfo}`.");
         }
+    }
+
+    /**
+     * Check if Log table exists.
+     *
+     * @return bool Returns `true` if table exists.
+     * @throws \RuntimeException in case if error occurs while checking Log table existence.
+     */
+    public function isTableExists(): bool
+    {
+        $sql = 'SHOW TABLES LIKE :table_name;';
+        $stmt = $this->pdo->prepare($sql);
+        $result = $stmt->execute([':table_name' => $this->tableName]);
+        if (!$result) {
+            $errorInfo = print_r($stmt->errorInfo(), true);
+            throw new \RuntimeException("Couldn't check if Log table exists. Query string: `{$stmt->queryString}`, table name: `{$this->tableName}`, error info: `{$errorInfo}`.");
+        }
+
+        return 1 === $stmt->rowCount();
     }
 }
