@@ -1,6 +1,6 @@
 {
   "name": "olegf13/jivochat-webhooks-api",
-  "description": "Jivochat (Jivosite) Webhooks API service.",
+  "description": "Library for Jivochat (Jivosite) Webhooks API integration.",
   "type": "library",
   "keywords": [
     "Jivochat",
@@ -30,7 +30,9 @@
     "ext-pdo": "*",
     "monolog/monolog": "1.9.*",
     "ext-mongodb": "*",
-    "mongodb/mongodb": "1.1.*"
+    "mongodb/mongodb": "1.1.*",
+    "phpunit/phpunit": "~6.1",
+    "fzaninotto/faker": "^1.6"
   },
   "suggest": {
     "ext-pdo": "Allow logging of Webhooks requests/response data to a MySQL server",
@@ -40,7 +42,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Jivochat\\Webhooks\\": "src/"
+      "Olegf13\\Jivochat\\Webhooks\\": "src/"
     }
   },
   "minimum-stability": "dev"
