@@ -19,11 +19,11 @@ use Olegf13\Jivochat\Webhooks\Request\Agent;
 class ChatAssigned extends Event
 {
     /** @var int Chat id (e.g. 7180). */
-    protected $chat_id;
+    public $chat_id;
     /** @var Agent Object with information about the operator. See {@link Agent} for details. */
-    protected $agent;
+    public $agent;
     /** @var string CRM link from the event Chat_accepted (e.g. "..."). */
-    protected $assign_to;
+    public $assign_to;
 
     /**
      * Setter for {@link agent} property.

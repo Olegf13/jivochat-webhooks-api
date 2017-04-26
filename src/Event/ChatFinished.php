@@ -12,11 +12,11 @@ use Olegf13\Jivochat\Webhooks\Request\Chat;
 class ChatFinished extends Event
 {
     /** @var int Chat id (e.g. 7180). */
-    protected $chat_id;
+    public $chat_id;
     /** @var Chat Data on completed chatting. See {@link Chat} for details. */
-    protected $chat;
+    public $chat;
     /** @var Agent[] Agents list. See {@link Agent} for details. */
-    protected $agents;
+    public $agents;
 
     /**
      * Setter for {@link agents} property.
