@@ -2,6 +2,7 @@
 
 namespace Olegf13\Jivochat\Webhooks\Event;
 
+use Olegf13\Jivochat\Webhooks\PopulateObjectViaArray;
 use Olegf13\Jivochat\Webhooks\Request\Agent;
 use Olegf13\Jivochat\Webhooks\Request\Chat;
 
@@ -11,6 +12,8 @@ use Olegf13\Jivochat\Webhooks\Request\Chat;
  */
 class ChatFinished extends Event
 {
+    use PopulateObjectViaArray;
+
     /** @var int Chat id (e.g. 7180). */
     public $chat_id;
     /** @var Chat Data on completed chatting. See {@link Chat} for details. */
@@ -28,7 +31,7 @@ class ChatFinished extends Event
     {
         /** @var Agent $agent */
         foreach ($agents as $data) {
-            if (!is_array($data) || !($data instanceof Agent)) {
+            if (!is_array($data) && !($data instanceof Agent)) {
                 throw new \InvalidArgumentException('Invalid data given.');
             }
 
