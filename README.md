@@ -1,5 +1,8 @@
 # Jivochat Webhooks API
 
+[![Latest Stable Version](https://poser.pugx.org/olegf13/jivochat-webhooks-api/v/stable)](https://packagist.org/packages/olegf13/jivochat-webhooks-api)
+[![License](https://poser.pugx.org/olegf13/jivochat-webhooks-api/license)](https://packagist.org/packages/olegf13/jivochat-webhooks-api)
+
 Library for [Jivochat](https://www.jivochat.com) ([Jivosite](https://www.jivosite.ru)) Webhooks API integration.
 
 This library allows you to integrate with Jivosite Webhooks API and:
