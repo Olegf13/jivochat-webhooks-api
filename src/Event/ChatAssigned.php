@@ -2,7 +2,6 @@
 
 namespace Olegf13\Jivochat\Webhooks\Event;
 
-use Olegf13\Jivochat\Webhooks\PopulateObjectViaArray;
 use Olegf13\Jivochat\Webhooks\Request\Agent;
 
 /**
@@ -19,8 +18,6 @@ use Olegf13\Jivochat\Webhooks\Request\Agent;
  */
 class ChatAssigned extends Event
 {
-    use PopulateObjectViaArray;
-
     /** @var int Chat id (e.g. 7180). */
     public $chat_id;
     /** @var Agent Object with information about the operator. See {@link Agent} for details. */

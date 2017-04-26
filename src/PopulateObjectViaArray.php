@@ -19,7 +19,7 @@ trait PopulateObjectViaArray
     public function populate(array $data): void
     {
         foreach ($data as $name => $value) {
-            if (!property_exists(__CLASS__, $name)) {
+            if (!property_exists($this, $name)) {
                 continue;
             }
 
