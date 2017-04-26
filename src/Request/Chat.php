@@ -13,12 +13,17 @@ class Chat
 {
     use PopulateObjectViaArray;
 
-    /** @var Message[] Messages list. See {@link Message} for details. */
+    /**
+     * @var Message[] Messages list. See {@link Message} for details.
+     * @todo: create MessageCollection with aggregated data (messages count, etc)
+     */
     public $messages;
     /** @var string|null User chat rank ("positive"|"negative"|null). */
     public $rate;
     /** @var bool|null A sign that the user was added to the black list (e.g. false). */
     public $blacklisted;
+
+    // todo: add `chat_started_at` and `chat_ended_at` properties
 
     /**
      * Setter for {@link messages} property.
@@ -26,11 +31,11 @@ class Chat
      * @param array $messages
      * @throws \InvalidArgumentException
      */
-    public function setAgents(array $messages)
+    public function setMessages(array $messages)
     {
         /** @var Agent $agent */
         foreach ($messages as $data) {
-            if (!is_array($data) || !($data instanceof Message)) {
+            if (!is_array($data) && !($data instanceof Message)) {
                 throw new \InvalidArgumentException('Invalid data given.');
             }
 
