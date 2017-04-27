@@ -52,7 +52,7 @@ class EventListener
      * @throws \InvalidArgumentException in case if invalid event name given or second parameter is not a callable.
      * @throws \LogicException in case if event handler for given event is already registered.
      */
-    public function on(string $event, callable $callback): void
+    public function on(string $event, callable $callback)
     {
         if (!in_array($event, Event::EVENTS, true)) {
             throw new \InvalidArgumentException("Invalid `event` name given (`{$event}`).");
@@ -78,7 +78,7 @@ class EventListener
      * @throws \LogicException in case when got unknown `event` name from the request.
      * @throws \LogicException in case when event handler for current `event` returned an empty response.
      */
-    public function listen(): void
+    public function listen()
     {
         if (!array_key_exists('REQUEST_METHOD', $_SERVER) || ('POST' !== $_SERVER['REQUEST_METHOD'])) {
 //            throw new \HttpRequestMethodException("Only HTTP POST is expected,");
@@ -118,7 +118,7 @@ class EventListener
      * @param Response $response Event handler response.
      * @throws \RuntimeException
      */
-    protected function respond(Response $response): void
+    protected function respond(Response $response)
     {
         /** @var string Webhook response JSON string. */
         $responseJSON = $response->getResponse();

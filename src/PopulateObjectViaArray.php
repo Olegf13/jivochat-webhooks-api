@@ -16,7 +16,7 @@ trait PopulateObjectViaArray
      * @param array $data Associative array with object data to be populated.
      * Array keys must represent property names, array values - properties value.
      */
-    public function populate(array $data): void
+    public function populate(array $data)
     {
         foreach ($data as $name => $value) {
             if (!property_exists($this, $name)) {

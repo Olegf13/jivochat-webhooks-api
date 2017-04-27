@@ -48,7 +48,7 @@ class Response
      * @param string|null $link URL that opens when you click on a data field.
      * @param string|null $key Description of the data field, bold text before a colon.
      */
-    public function setCustomData(string $title, string $content, string $link = null, string $key = null): void
+    public function setCustomData(string $title, string $content, string $link = null, string $key = null)
     {
         $data = [
             'title' => $title,
@@ -72,7 +72,7 @@ class Response
      * @param string|null $phone Client phone number.
      * @param string|null $description Additional information about the client.
      */
-    public function setContactInfo(string $name = null, string $email = null, string $phone = null, string $description = null): void
+    public function setContactInfo(string $name = null, string $email = null, string $phone = null, string $description = null)
     {
         $contactInfo = [];
         if (null !== $name) {
@@ -100,7 +100,7 @@ class Response
      *
      * @param bool $value
      */
-    public function setEnableAssign(bool $value): void
+    public function setEnableAssign(bool $value)
     {
         $this->enable_assign = $value;
     }
@@ -110,7 +110,7 @@ class Response
      *
      * @param string $link
      */
-    public function setCRMLink(string $link): void
+    public function setCRMLink(string $link)
     {
         $this->crm_link = $link;
     }
@@ -173,7 +173,7 @@ class Response
      *
      * @throws \RuntimeException in case if error occurs during encoding response to JSON.
      */
-    protected function buildResponse(): void
+    protected function buildResponse()
     {
         $response = [
             'result' => 'ok',

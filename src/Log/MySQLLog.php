@@ -91,7 +91,7 @@ class MySQLLog implements LogInterface
      * @throws \RuntimeException in case if Log table already exists.
      * @throws \RuntimeException in case if error occurs while Log table creation.
      */
-    public function createLogTable($checkExistence = true): void
+    public function createLogTable($checkExistence = true)
     {
         if ($checkExistence && $this->isTableExists()) {
             throw new \RuntimeException("Table `{$this->tableName}` already exists.");
